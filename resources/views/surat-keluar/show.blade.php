@@ -10,22 +10,22 @@
 
         <p>
             <strong>Nomor Surat:</strong>
-            {{ $surat['nomor_surat'] }}
+            {{ $surat->nomor_surat }}
         </p>
 
         <p>
             <strong>Tanggal:</strong>
-            {{ $surat['tanggal'] }}
+            {{ \Carbon\Carbon::parse($surat->tanggal)->format('Y-m-d') }}
         </p>
 
         <p>
-            <strong>Pengirim:</strong>
-            {{ $surat['pengirim'] }}
+            <strong>Tujuan:</strong>
+            {{ $surat->tujuan }}
         </p>
 
         <p>
             <strong>Perihal:</strong>
-            {{ $surat['perihal'] }}
+            {{ $surat->perihal }}
         </p>
 
     @else
