@@ -1,9 +1,39 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Sistem Informasi Surat')</title>
+
+    <style>
+        form label {
+            display: inline-block;
+            width: 130px;
+        }
+
+         form input,
+         form textarea {
+         vertical-align: middle;
+        width: 170px;
+        }
+
+        form label {
+        display: inline-block;
+        width: 130px;
+        }
+
+        form input,
+        form textarea {
+        box-sizing: border-box;
+        }
+
+        form input[type="text"],
+        form input[type="date"],
+        form textarea {
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 <body>
 

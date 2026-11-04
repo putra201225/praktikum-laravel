@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -10,12 +11,8 @@ Route::get('/', function () {
 })->name('dashboard');
 
 // Surat Masuk
-Route::get('/surat-masuk', [SuratMasukController::class, 'index'])
-    ->name('surat-masuk.index');
-
-Route::get('/surat-masuk/{id}', [SuratMasukController::class, 'show'])
-    ->whereNumber('id')
-    ->name('surat-masuk.show');
+Route::resource('surat-masuk', SuratMasukController::class)
+    ->parameters(['surat-masuk' => 'id']);
 
 // Surat Keluar
 Route::get('/surat-keluar', [SuratKeluarController::class, 'index'])
