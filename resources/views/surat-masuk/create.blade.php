@@ -3,44 +3,42 @@
 @section('title', 'Tambah Surat Masuk')
 
 @section('content')
-    <h1>Tambah Surat Masuk</h1>
 
-    <form action="{{ route('surat-masuk.store') }}" method="POST">
-        @csrf
+<h1>Tambah Surat Masuk</h1>
 
-        @if ($errors->any())
-            <div style="color: red;">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+@if ($errors->any())
+    <ul style="color: red;">
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+@endif
 
-        <label for="nomor_surat">Nomor Surat</label>
-        <input type="text" id="nomor_surat" name="nomor_surat"
-            value="{{ old('nomor_surat') }}" required>
+<form action="{{ route('surat-masuk.store') }}" method="POST">
+    @csrf
 
-        <label for="tanggal">Tanggal Surat</label>
-        <input type="date" id="tanggal" name="tanggal"
-            value="{{ old('tanggal') }}" required>
+    <label>Nomor Surat</label><br>
+    <input type="text" name="nomor_surat" value="{{ old('nomor_surat') }}">
+    <br><br>
 
-        <label for="pengirim">Pengirim</label>
-        <input type="text" id="pengirim" name="pengirim"
-            value="{{ old('pengirim') }}" required>
+    <label>Tanggal</label><br>
+    <input type="date" name="tanggal" value="{{ old('tanggal') }}">
+    <br><br>
 
-        <label for="perihal">Perihal</label>
-        <input type="text" id="perihal" name="perihal"
-            value="{{ old('perihal') }}" required>
+    <label>Pengirim</label><br>
+    <input type="text" name="pengirim" value="{{ old('pengirim') }}">
+    <br><br>
 
-        <label for="keterangan">Keterangan</label>
-        <textarea id="keterangan" name="keterangan">{{ old('keterangan') }}</textarea>
+    <label>Perihal</label><br>
+    <input type="text" name="perihal" value="{{ old('perihal') }}">
+    <br><br>
 
-        <button type="submit" class="btn">Simpan Surat</button>
+    <label>Keterangan</label><br>
+    <textarea name="keterangan">{{ old('keterangan') }}</textarea>
+    <br><br>
 
-        <a href="{{ route('surat-masuk.index') }}" class="btn btn-danger">
-            Batal
-        </a>
-    </form>
+    <button type="submit">Simpan</button>
+    <a href="{{ route('surat-masuk.index') }}">Kembali</a>
+</form>
+
 @endsection
