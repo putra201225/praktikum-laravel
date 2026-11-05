@@ -12,20 +12,11 @@
             width: 130px;
         }
 
-         form input,
-         form textarea {
-         vertical-align: middle;
-        width: 170px;
-        }
-
-        form label {
-        display: inline-block;
-        width: 130px;
-        }
-
         form input,
         form textarea {
-        box-sizing: border-box;
+            vertical-align: middle;
+            width: 170px;
+            box-sizing: border-box;
         }
 
         form input[type="text"],
@@ -45,6 +36,19 @@
             <a href="{{ route('surat-masuk.index') }}">Surat Masuk</a> |
             <a href="{{ route('surat-keluar.index') }}">Surat Keluar</a>
         </nav>
+
+        @auth
+            <p>
+                Login sebagai:
+                <strong>{{ auth()->user()->name }}</strong>
+                ({{ auth()->user()->role }})
+            </p>
+
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit">Logout</button>
+            </form>
+        @endauth
 
         <hr>
     </header>
