@@ -1,64 +1,53 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Sistem Informasi Surat')</title>
-
-    <style>
-        form label {
-            display: inline-block;
-            width: 130px;
-        }
-
-        form input,
-        form textarea {
-            vertical-align: middle;
-            width: 170px;
-            box-sizing: border-box;
-        }
-
-        form input[type="text"],
-        form input[type="date"],
-        form textarea {
-            box-sizing: border-box;
-        }
-    </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="min-h-screen bg-slate-100">
 
-    <header>
-        <h2>Sistem Informasi Surat</h2>
+    <header class="bg-blue-800 text-white px-6 py-6 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
 
-        <nav>
-            <a href="{{ route('dashboard') }}">Dashboard</a> |
-            <a href="{{ route('surat-masuk.index') }}">Surat Masuk</a> |
-            <a href="{{ route('surat-keluar.index') }}">Surat Keluar</a>
-        </nav>
+            <div>
+                <h2 class="text-3xl font-bold text-white mb-3">
+                    Sistem Informasi Surat
+                </h2>
 
-        @auth
-            <p>
-                Login sebagai:
-                <strong>{{ auth()->user()->name }}</strong>
-                ({{ auth()->user()->role }})
-            </p>
+                <nav class="flex flex-wrap gap-5">
+                    <a href="{{ route('dashboard') }}" class="text-white font-semibold hover:text-blue-200">Dashboard</a>
+                    <a href="{{ route('surat-masuk.index') }}" class="text-white font-semibold hover:text-blue-200">Surat Masuk</a>
+                    <a href="{{ route('surat-keluar.index') }}" class="text-white font-semibold hover:text-blue-200">Surat Keluar</a>
+                </nav>
+            </div>
 
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit">Logout</button>
-            </form>
-        @endauth
+            @auth
+                <div class="text-right">
+                    <p class="text-white">
+                        Login sebagai:
+                        <strong>{{ auth()->user()->name }}</strong>
+                        ({{ auth()->user()->role }})
+                    </p>
 
-        <hr>
+                    <form action="{{ route('logout') }}" method="POST" class="mt-3">
+                        @csrf
+                        <button type="submit" class="bg-white text-blue-800 hover:bg-blue-100 px-4 py-2 rounded-lg font-semibold">
+                            Logout
+                        </button>
+                    </form>
+                </div>
+            @endauth
+
+        </div>
     </header>
 
-    <main>
+    <main class="max-w-7xl min-h-[350px] mx-auto my-8 px-6 py-8 bg-white rounded-xl shadow-sm">
         @yield('content')
     </main>
 
-    <footer>
-        <hr>
+    <footer class="text-center text-slate-500 py-5">
         <p>&copy; 2026 Sistem Informasi Surat</p>
     </footer>
 

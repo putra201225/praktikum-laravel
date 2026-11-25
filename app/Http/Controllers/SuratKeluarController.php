@@ -3,42 +3,77 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\OutgoingLetter;
+use App\Models\Category;
 
 class SuratKeluarController extends Controller
 {
     // Menampilkan daftar surat keluar
-    public function index()
+    public function index(Request $request)
     {
-        $suratKeluar = OutgoingLetter::all();
+        $query = OutgoingLetter::with('category');
 
-        return view('surat-keluar.index', compact('suratKeluar'));
+        // Pencarian surat
+        if ($request->filled('q')) {
+            $q = $request->input('q');
+
+            $query->where(function ($builder) use ($q) {
+                $builder->where('nomor_surat', 'like', "%{$q}%")
+                    ->orWhere('tujuan', 'like', "%{$q}%")
+                    ->orWhere('perihal', 'like', "%{$q}%");
+            });
+        }
+
+        // Filter kategori
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->input('category_id'));
+        }
+
+        // Urutkan nomor surat dari kecil ke besar
+        // Pagination 5 data per halaman
+        $suratKeluar = $query
+            ->orderBy('nomor_surat', 'asc')
+            ->orderBy('id', 'asc')
+            ->paginate(5)
+            ->withQueryString();
+
+        $categories = Category::orderBy('nama')->get();
+
+        return view('surat-keluar.index', compact(
+            'suratKeluar',
+            'categories'
+        ));
     }
 
-    // Menampilkan form tambah
+    // Form tambah surat
     public function create()
     {
-        return view('surat-keluar.create');
+        $categories = Category::orderBy('nama')->get();
+
+        return view('surat-keluar.create', compact('categories'));
     }
 
     // Menyimpan surat keluar
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nomor_surat' => 'required|max:255',
             'tanggal' => 'required|date',
             'tujuan' => 'required|max:255',
             'perihal' => 'required|max:255',
             'keterangan' => 'nullable|string',
+            'category_id' => 'nullable|exists:categories,id',
+            'lampiran' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
-        OutgoingLetter::create([
-            'nomor_surat' => $request->nomor_surat,
-            'tanggal' => $request->tanggal,
-            'tujuan' => $request->tujuan,
-            'perihal' => $request->perihal,
-            'keterangan' => $request->keterangan,
-        ]);
+        // Upload lampiran
+        if ($request->hasFile('lampiran')) {
+            $validated['lampiran'] = $request->file('lampiran')
+                ->store('lampiran-surat-keluar', 'public');
+        }
+
+        OutgoingLetter::create($validated);
 
         return redirect()->route('surat-keluar.index')
             ->with('success', 'Surat keluar berhasil ditambahkan.');
@@ -47,39 +82,57 @@ class SuratKeluarController extends Controller
     // Menampilkan detail surat
     public function show($id)
     {
-        $surat = OutgoingLetter::findOrFail($id);
+        $surat = OutgoingLetter::with('category')->findOrFail($id);
 
         return view('surat-keluar.show', compact('surat'));
     }
 
-    // Menampilkan form edit
+    // Form edit surat
     public function edit($id)
     {
         $surat = OutgoingLetter::findOrFail($id);
+        $categories = Category::orderBy('nama')->get();
 
-        return view('surat-keluar.edit', compact('surat'));
+        return view('surat-keluar.edit', compact(
+            'surat',
+            'categories'
+        ));
     }
 
     // Memperbarui surat keluar
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $surat = OutgoingLetter::findOrFail($id);
+
+        $validated = $request->validate([
             'nomor_surat' => 'required|max:255',
             'tanggal' => 'required|date',
             'tujuan' => 'required|max:255',
             'perihal' => 'required|max:255',
             'keterangan' => 'nullable|string',
+            'category_id' => 'nullable|exists:categories,id',
+            'lampiran' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
-        $surat = OutgoingLetter::findOrFail($id);
+        // Jika ada lampiran baru
+        if ($request->hasFile('lampiran')) {
+            $pathLama = $surat->lampiran;
 
-        $surat->update([
-            'nomor_surat' => $request->nomor_surat,
-            'tanggal' => $request->tanggal,
-            'tujuan' => $request->tujuan,
-            'perihal' => $request->perihal,
-            'keterangan' => $request->keterangan,
-        ]);
+            $validated['lampiran'] = $request->file('lampiran')
+                ->store('lampiran-surat-keluar', 'public');
+
+            $surat->update($validated);
+
+            // Hapus lampiran lama
+            if ($pathLama) {
+                Storage::disk('public')->delete($pathLama);
+            }
+        } else {
+            // Pertahankan lampiran lama
+            unset($validated['lampiran']);
+
+            $surat->update($validated);
+        }
 
         return redirect()->route('surat-keluar.index')
             ->with('success', 'Surat keluar berhasil diperbarui.');
@@ -90,7 +143,14 @@ class SuratKeluarController extends Controller
     {
         $surat = OutgoingLetter::findOrFail($id);
 
+        $path = $surat->lampiran;
+
         $surat->delete();
+
+        // Hapus file lampiran
+        if ($path) {
+            Storage::disk('public')->delete($path);
+        }
 
         return redirect()->route('surat-keluar.index')
             ->with('success', 'Surat keluar berhasil dihapus.');

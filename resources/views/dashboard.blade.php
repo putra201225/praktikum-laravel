@@ -4,19 +4,14 @@
 
 @section('content')
 
-    <h1>Dashboard</h1>
+<div class="rounded-xl bg-gradient-to-r from-blue-800 via-blue-600 to-sky-400 p-8 shadow-lg">
+    <h1 class="text-3xl font-bold text-white mb-3">
+        Dashboard
+    </h1>
 
-    <p>Selamat Datang di Sistem Informasi Surat</p>
-
-    <h3>Menu Utama</h3>
-
-    <ul>
-        <li>
-            <a href="{{ route('surat-masuk.index') }}">Surat Masuk</a>
-        </li>
-        <li>
-            <a href="{{ route('surat-keluar.index') }}">Surat Keluar</a>
-        </li>
-    </ul>
+    <p class="text-blue-50 text-lg">
+        Selamat Datang di Sistem Informasi Surat
+    </p>
+</div>
 
 @endsection

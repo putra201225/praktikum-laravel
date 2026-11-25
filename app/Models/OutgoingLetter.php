@@ -14,5 +14,12 @@ class OutgoingLetter extends Model
         'tujuan',
         'perihal',
         'keterangan',
+        'category_id',
+        'lampiran',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }
