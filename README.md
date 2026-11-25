@@ -1,211 +1,147 @@
-# SISTEM INFORMASI SURAT
+# Sistem Informasi Surat (SIM Surat)
 
-## Deskripsi Project
+Aplikasi berbasis web untuk mengelola surat masuk dan surat keluar menggunakan Laravel.
 
-Sistem Informasi Surat merupakan aplikasi berbasis web yang dibuat menggunakan framework Laravel. Aplikasi ini digunakan untuk membantu pengelolaan data surat masuk dan surat keluar agar proses pencatatan dan penyimpanan data menjadi lebih terstruktur.
+## Identitas Mahasiswa
 
-Project ini dikembangkan sebagai bagian dari kegiatan Praktikum Pemrograman Web Lanjut.
+- **Nama:** Putra Ganda Prayoga
+- **NIM:** 2410651057
+- **Program Studi:** Teknik Informatika
+- **Kelas:** C
+- **Universitas:** Universitas Muhammadiyah Jember
 
-## Teknologi yang Digunakan
+## Deskripsi
 
-- PHP 8.2
-- Laravel 12
-- MySQL
-- HTML
-- CSS
-- XAMPP
-- Visual Studio Code
+Sistem Informasi Surat (SIM Surat) merupakan aplikasi berbasis web yang digunakan untuk membantu proses pengelolaan data surat masuk dan surat keluar secara terstruktur.
+
+Aplikasi ini dilengkapi dengan fitur kategori surat, pencarian, filter data, pagination, upload lampiran, serta pembagian hak akses pengguna.
 
 ## Fitur Aplikasi
 
 ### 1. Dashboard
-Menampilkan halaman utama aplikasi Sistem Informasi Surat.
+- Menampilkan halaman utama aplikasi.
+- Navigasi menuju Surat Masuk dan Surat Keluar.
 
 ### 2. Surat Masuk
-
-Fitur pengelolaan data surat masuk yang meliputi:
-
-- Menampilkan daftar surat masuk.
 - Menambahkan data surat masuk.
-- Melihat detail surat masuk.
-- Mengedit data surat masuk.
-- Menghapus data surat masuk.
-- Validasi input pada form.
-
-Data surat masuk terdiri dari:
-
-- Nomor Surat
-- Tanggal Surat
-- Pengirim
-- Perihal
-- Keterangan
+- Melihat detail surat.
+- Mengubah data surat.
+- Menghapus data surat.
+- Mengelola kategori surat.
+- Upload lampiran surat.
 
 ### 3. Surat Keluar
-
-Fitur pengelolaan data surat keluar yang meliputi:
-
-- Menampilkan daftar surat keluar.
 - Menambahkan data surat keluar.
-- Melihat detail surat keluar.
-- Mengedit data surat keluar.
-- Menghapus data surat keluar.
-- Validasi input pada form.
+- Melihat detail surat.
+- Mengubah data surat.
+- Menghapus data surat.
+- Mengelola kategori surat.
+- Upload lampiran surat.
 
-Data surat keluar terdiri dari:
+### 4. Pencarian dan Filter
+- Pencarian berdasarkan nomor surat, pengirim atau tujuan, dan perihal.
+- Filter berdasarkan kategori surat.
+- Pagination untuk membagi tampilan data.
 
-- Nomor Surat
-- Tanggal
-- Tujuan
-- Perihal
-- Keterangan
+### 5. Hak Akses Pengguna
+- **Petugas:** dapat mengelola data surat.
+- **Pembaca:** hanya dapat melihat data surat.
 
-### 4. Authentication (Login dan Logout)
+### 6. Lampiran Surat
+- Mendukung file PDF, JPG, JPEG, dan PNG.
+- Ukuran maksimal file 2 MB.
+- Lampiran dapat dilihat atau diunduh.
 
-Fitur autentikasi digunakan untuk mengatur pengguna yang dapat mengakses aplikasi.
+## Teknologi yang Digunakan
 
-- Login menggunakan email dan password.
-- Logout untuk mengakhiri sesi pengguna.
-- Validasi email dan password.
-- Pengguna yang belum login diarahkan ke halaman login.
+- PHP
+- Laravel
+- MySQL
+- Tailwind CSS
+- JavaScript
+- Vite
+- HTML
 
-### 5. Authorization (Hak Akses Pengguna)
+## Persyaratan
 
-Aplikasi memiliki dua jenis role pengguna, yaitu:
+- PHP
+- Composer
+- Node.js dan NPM
+- MySQL / XAMPP
 
-**Petugas**
-- Dapat melihat daftar dan detail surat.
-- Dapat menambahkan surat.
-- Dapat mengedit surat.
-- Dapat menghapus surat.
+## Cara Instalasi dan Menjalankan
 
-**Pembaca**
-- Dapat melihat daftar surat masuk dan surat keluar.
-- Dapat melihat detail surat.
-- Tidak dapat menambahkan surat.
-- Tidak dapat mengedit surat.
-- Tidak dapat menghapus surat.
+1. Clone repository:
 
-Pembatasan hak akses diterapkan menggunakan middleware `auth` dan Gate `manage-letters`.
+   ```bash
+   git clone https://github.com/putra201225/praktikum-laravel.git
+   ```
 
-## Struktur Project
+2. Masuk ke folder proyek:
 
-```text
-praktikum-laravel/
-│
-├── app/
-│   ├── Http/
-│   │   └── Controllers/
-│   │       ├── Auth/
-│   │       │   └── LoginController.php
-│   │       ├── SuratMasukController.php
-│   │       └── SuratKeluarController.php
-│   │
-│   ├── Models/
-│   │   ├── User.php
-│   │   ├── IncommingLetter.php
-│   │   └── OutgoingLetter.php
-│   │
-│   └── Providers/
-│       └── AppServiceProvider.php
-│
-├── database/
-│   ├── migrations/
-│   └── seeders/
-│
-├── resources/
-│   └── views/
-│       ├── auth/
-│       │   └── login.blade.php
-│       ├── layout/
-│       │   └── app.blade.php
-│       ├── surat-masuk/
-│       │   ├── index.blade.php
-│       │   ├── create.blade.php
-│       │   ├── edit.blade.php
-│       │   └── show.blade.php
-│       ├── surat-keluar/
-│       │   ├── index.blade.php
-│       │   ├── create.blade.php
-│       │   ├── edit.blade.php
-│       │   └── show.blade.php
-│       └── dashboard.blade.php
-│
-├── routes/
-│   └── web.php
-│
-├── .env
-└── README.md
-```
+   ```bash
+   cd praktikum-laravel
+   ```
 
-## Konfigurasi Database
+3. Install dependensi Laravel:
 
-Aplikasi menggunakan database MySQL dengan nama:
+   ```bash
+   composer install
+   ```
 
-`db_sim_surat`
+4. Install dependensi frontend:
 
-Konfigurasi database dilakukan melalui file `.env`.
+   ```bash
+   npm install
+   ```
 
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=db_sim_surat
-DB_USERNAME=root
-DB_PASSWORD=
-```
+5. Salin file konfigurasi:
 
-## Cara Menjalankan Aplikasi
+   ```bash
+   copy .env.example .env
+   ```
 
-1. Pastikan XAMPP sudah terpasang.
-2. Jalankan Apache dan MySQL melalui XAMPP.
-3. Buka terminal pada folder project.
-4. Jalankan perintah berikut:
+6. Generate application key:
 
-```bash
-composer install
-```
+   ```bash
+   php artisan key:generate
+   ```
 
-5. Salin file `.env.example` menjadi `.env` jika file `.env` belum tersedia.
-6. Buat application key:
+7. Atur konfigurasi database pada file `.env`.
 
-```bash
-php artisan key:generate
-```
-
-7. Pastikan konfigurasi database sudah sesuai.
 8. Jalankan migration:
 
-```bash
-php artisan migrate
-```
+   ```bash
+   php artisan migrate
+   ```
 
-9. Jalankan aplikasi:
+9. Buat symbolic link untuk lampiran:
 
-```bash
-php artisan serve
-```
+   ```bash
+   php artisan storage:link
+   ```
 
-10. Buka browser dan akses:
+10. Jalankan aplikasi:
 
-```text
-http://127.0.0.1:8000
-```
+    ```bash
+    php artisan serve
+    ```
 
-## Pengujian Hak Akses
+11. Jalankan Vite pada terminal terpisah:
 
-Pengujian dilakukan menggunakan dua akun dengan role berbeda:
+    ```bash
+    npm run dev
+    ```
 
-| Role | Hak Akses |
-|---|---|
-| Petugas | Melihat, menambah, mengedit, dan menghapus surat |
-| Pembaca | Melihat daftar dan detail surat |
+12. Buka aplikasi melalui:
 
-Pengujian juga dilakukan untuk memastikan pengguna yang belum login diarahkan ke halaman login dan pengguna dengan role pembaca tidak dapat mengakses halaman pengelolaan surat.
+    ```text
+    http://127.0.0.1:8000
+    ```
 
 ## Pengembang
 
-Project ini dibuat untuk memenuhi kegiatan Praktikum Pemrograman Web Lanjut.
-
-## Penutup
-
-Dengan adanya aplikasi Sistem Informasi Surat, diharapkan pengelolaan data surat masuk dan surat keluar dapat dilakukan dengan lebih mudah dan terstruktur. Project ini juga menjadi sarana pembelajaran dalam memahami penggunaan Laravel, pengelolaan database MySQL, routing, controller, model, view, CRUD, validasi data, authentication, dan authorization.
+**Putra Ganda Prayoga**  
+Teknik Informatika  
+Universitas Muhammadiyah Jember  
+2026
